@@ -29,8 +29,17 @@ if __name__ == "__main__":
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     )
 
-    s3_client.list_buckets()
-
+    b = s3_client.list_buckets()
 
     api = AirQualityAPI(api_key=AQ_API_KEY)
-    print(api.get_city_data("Barcelona"))
+    cities = ("Barcelona","Madrid","Valencia","Granada","Sevilla","Bilbao","Malaga","Valladolid","Zaragoza","Huelva","Soria","Gijon","Palma")
+
+    for city in cities:
+        data = api.get_city_data(city=city)
+        try:
+            timestamp =  data["data"]["time"]["iso"]
+        except Exception as e:
+            print(data)
+            raise e
+        s3_client.put_object(Body=str(data), Bucket="air-quality-data-dumps", Key=f"{city}-{timestamp}.json")
+    print("Done!")
