@@ -1,4 +1,7 @@
 credentials.py
+*.db
+.env
+.env.*
 __pycache__/
 .vscode/
 .DS_Store
