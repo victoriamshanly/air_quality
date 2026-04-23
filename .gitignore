@@ -2,3 +2,5 @@ credentials.py
 __pycache__/
 .vscode/
 .DS_Store
+.venv/
+lambda_deploy.zip
